@@ -35,13 +35,13 @@ node {
   }
 
   stage("Push Image") {
-    /* push the image to docker hub */
-    dir("AdminServer"){
-        docker.withRegistry("http://registry.hub.docker.com", "docker-hub-credentials"){
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-        }
-    }
-  }
+/* push the image to docker hub */
+dir("AdminServer"){
+docker.withRegistry("http://registry.hub.docker.com", "docker-hub-credentials"){
+app.push("${env.BUILD_NUMBER}")
+app.push("latest")
+}
+}
+}
 
 }
