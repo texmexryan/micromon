@@ -5,18 +5,28 @@ services:
     image: texmexryan/admin-server
     ports:
       - 9000:9000
-    networks:
-      - spring-cloud-network
+    
   discovery-server:
     container_name: discovery-server
     image: texmexryan/discovery-server
     ports:
       - 8761:8761
-    networks:
-      - spring-cloud-network
-    links:
-      - admin-server:admin-server
-networks:
-  spring-cloud-network:
-    driver: bridge
+     depends on:
+      - admin-server 
+   
+  pokemon-service:
+    container_name: pokemon-service
+    image: texmexryan/pokemon-service
+    ports:
+      - 8081:8080
+      depends on:
+      - discovery-server
+  trainer-service:
+    container_name: trainer-service
+    image: texmexryan/trainer-service
+    ports:
+      - 8091:8080
+    depends on:
+      - pokemon-service  
+
 
