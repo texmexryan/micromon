@@ -1,7 +1,7 @@
-void theProcess(folder, image){
+void theProcess(folder,image){
   def app
   script {
-    stage("Permissions"){
+    stage("permissions") {
       dir(folder){
         sh "chmod 711 ./mvnw"
       }
@@ -15,16 +15,17 @@ void theProcess(folder, image){
       dir(folder){
         app = docker.build("texmexryan/"+image)
       }
-  }
-  stage("deploy"){
+    }
+    stage("deploy"){
       dir(folder){
-        docker.withRegistry("https://registry.hub.docker.com", "docker-hub-credentials"){
-        app.push("${env.BUILD_NUMBER}")
-        app.push("latest")
+        docker.withRegistry("https://registry.hub.docker.com","docker-hub-credentials") {
+          app.push("${env.BUILD_NUMBER}")
+          app.push("latest")
+        }
       }
-      }
+    }
+  }
 }
-
 pipeline {
   agent any 
   stages {
@@ -53,5 +54,4 @@ pipeline {
       }
     }
   }  
-
 }
