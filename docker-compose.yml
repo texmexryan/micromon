@@ -5,9 +5,20 @@ services:
     image: texmexryan/admin-server
     ports:
       - 9000:9000
+    networks:
+      - spring-cloud-network
       discovery-server:
         container-name: discovery-server
         image: texmexryan/discovery-server
         ports:
           - 8761:8761
+        networks:
+          - spring-cloud-network
+          links:
+            - admin-server:admin-server
+
+networks:
+  spring-cloud-network:
+    driver: bridge
+
 
